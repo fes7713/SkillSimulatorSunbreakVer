@@ -44,6 +44,23 @@ public class Skill {
         
         activeProperty = new SimpleBooleanProperty(true);
         required = new SimpleIntegerProperty(0);
+        activeProperty.addListener(
+                (observable) -> 
+                    {
+//                        if(!activeProperty.get())
+//                            required.set(0);
+                        updateScore();
+                    }
+        );
+        required.addListener(
+                (observable) -> 
+                    {
+                        if(required.get() > 0)
+                            setActive(true);
+                        updateScore();
+                    }
+        );
+
         
         decorations = new ArrayList<>();
         
@@ -74,15 +91,17 @@ public class Skill {
     
     public int getCost()
     {
-        if(activeProperty.get())
-        {
+//        if(activeProperty.get())
+//        {
             if(decorations.isEmpty())
                 return 2;
+            else if(this instanceof UnknownSkill)
+                return 0;
             else
                 return decorations.get(decorations.size() - 1).getCost();
-        }
-        else
-            return 0;
+//        }
+//        else
+//            return 0;
     }
 
     public boolean isActive() {

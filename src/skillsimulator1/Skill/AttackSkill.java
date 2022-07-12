@@ -31,6 +31,6 @@ public abstract class AttackSkill extends Skill{
     @Override
     public void updateScore()
     {
-        score =  getCost() * (getCost() >= 2 ? 2 : 1) * (isActive() ? 1 : 0);
+        score =  getCost() * (getCost() >= 2 ? 2 : 1) * (isActive() || requiredProperty().get() > 0 ? 1 : 0);
     }
 }

@@ -26,11 +26,13 @@ import skillsimulator1.Skill.AffinityMultiplierSkill;
 import skillsimulator1.Skill.AffinitySkill;
 import skillsimulator1.Skill.AttackSkill;
 import skillsimulator1.Skill.DamageAffinityUpSkill;
-import skillsimulator1.Skill.DamageMultiplierSkill;
+import skillsimulator1.Skill.DamageMultiplierPostSkill;
+import skillsimulator1.Skill.DamageMultiplierPreSkill;
 import skillsimulator1.Skill.DamageUpMultiplePreSkill;
 import skillsimulator1.Skill.DamageUpSkill;
 import skillsimulator1.Skill.SeriesSkill;
 import skillsimulator1.Skill.Skill;
+import skillsimulator1.Skill.SwordGunnerDamageUpSkill;
 import skillsimulator1.Skill.UnknownSkill;
 
 
@@ -130,12 +132,12 @@ public class Simulator {
             = new Decoration(punishingDraw, "抜打珠Ⅱ【4】", 4, 2);
     
     public static final Skill offensiveGuard
-            = new DamageMultiplierSkill("攻めの守勢", 3, new double[]{1.05, 1.1, 1.15});
+            = new DamageMultiplierPreSkill("攻めの守勢", 3, new double[]{1.05, 1.1, 1.15});
     public static final Decoration guardianJewel3
             = new Decoration(offensiveGuard, "守勢珠【3】", 3, 1);
     
     public static final Skill heroics
-            = new DamageMultiplierSkill("火事場力", 2, new double[]{1, 1.05, 1.05, 1.1, 1.3});
+            = new DamageMultiplierPreSkill("火事場力", 2, new double[]{1, 1.05, 1.05, 1.1, 1.3});
     public static final Decoration potentialJewel2
             = new Decoration(heroics, "底力珠【2】", 2, 1);
     
@@ -182,20 +184,20 @@ public class Simulator {
             = new Decoration(protectivePolish, "剛刃珠【2】", 2, 1);
     
     public static final Skill NormalRapidUp
-            = new Skill("通常弾・連射矢強化", 3, 3);
+            = new DamageMultiplierPostSkill("通常弾・連射矢強化", 3, new double[] {1.05, 1.1, 1.2});
     public static final Decoration forceshotJewel3
             = new Decoration(NormalRapidUp, "強弾珠【3】", 3, 1);
     public static final Skill pierceUp
-            = new Skill("貫通弾・貫通矢強化", 3, 3);
+            = new DamageMultiplierPostSkill("貫通弾・貫通矢強化", 3, new double[] {1.05, 1.1, 1.2});
     public static final Decoration pierceJewel3
             = new Decoration(pierceUp, "貫通珠【3】", 3, 1);
     public static final Skill spreadUp
-            = new Skill("散弾・拡散矢強化", 3, 3);
+            = new DamageMultiplierPostSkill("散弾・拡散矢強化", 3, new double[] {1.05, 1.1, 1.2});
     public static final Decoration spreadJewel3
             = new Decoration(spreadUp, "散弾珠【3】", 3, 1);
     
     public static final Skill rapidFireUp
-            = new Skill("速射強化", 3, 3);
+            = new DamageMultiplierPostSkill("速射強化", 3, new double[] {1.05, 1.1, 1.2});
     public static final Decoration salvoJewel3
             = new Decoration(rapidFireUp, "速射珠【3】", 3, 1);
     
@@ -403,8 +405,8 @@ public class Simulator {
             = new SeriesSkill("合気", 3);
     public static final SeriesSkill bloodRite
             = new SeriesSkill("血氣", 3);
-    public static final SeriesSkill chainCrit
-            = new SeriesSkill("連撃", 3);
+    public static final Skill chainCrit
+            = new SwordGunnerDamageUpSkill("連撃", 2, new int[] {10, 12, 15}, new int[] {8, 9, 10});
     public static final SeriesSkill spiribirdsCall
             = new SeriesSkill("供応", 1);
     

@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -32,14 +34,15 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
 import skillsimulator1.Armor.Charm;
 import static skillsimulator1.DataLoader.LoadArmData;
 import static skillsimulator1.DataLoader.LoadCharmData;
@@ -51,8 +54,10 @@ import static skillsimulator1.DataLoader.createFile;
 import static skillsimulator1.DataLoader.loadMyset;
 import static skillsimulator1.DataLoader.saveMyset;
 import skillsimulator1.Decoration.Decoration;
+import static skillsimulator1.Simulator.NormalRapidUp;
 import static skillsimulator1.Simulator.agitator;
 import static skillsimulator1.Simulator.attackBoost;
+import static skillsimulator1.Simulator.chainCrit;
 import static skillsimulator1.Simulator.counterstrike;
 import static skillsimulator1.Simulator.criticalBoost;
 import static skillsimulator1.Simulator.criticalDraw;
@@ -62,11 +67,15 @@ import static skillsimulator1.Simulator.latentPower;
 import static skillsimulator1.Simulator.maximumMight;
 import static skillsimulator1.Simulator.offensiveGuard;
 import static skillsimulator1.Simulator.peakPerformance;
+import static skillsimulator1.Simulator.pierceUp;
 import static skillsimulator1.Simulator.punishingDraw;
+import static skillsimulator1.Simulator.rapidFireUp;
 import static skillsimulator1.Simulator.resentment;
 import static skillsimulator1.Simulator.resuscitate;
+import static skillsimulator1.Simulator.spreadUp;
 import static skillsimulator1.Simulator.weaknessExploit;
 import skillsimulator1.Skill.Skill;
+import skillsimulator1.Skill.SwordGunnerChoice;
 
 
 /**
@@ -123,10 +132,22 @@ public class UImainController implements Initializable {
     private CheckBox MaximumMightBox;
     @FXML
     private CheckBox LatentPowerBox;
-    
-    
     @FXML
-    private GridPane requiredSkillGridPane;
+    private CheckBox ChainCritCheckBox;
+    @FXML
+    private RadioButton GunnerButton;
+    @FXML
+    private RadioButton NormalRapidUpRadioBox;
+    @FXML
+    private RadioButton PieceUpRadioBox;
+    @FXML
+    private RadioButton SpreadUpRadioBox;
+    @FXML
+    private CheckBox RapidFireUpCheckBox;
+    
+    private BooleanProperty bulletFlag;
+//    @FXML
+//    private GridPane requiredSkillGridPane;
     
     @FXML
     private ComboBox MasterTouchBox;
@@ -538,7 +559,8 @@ public class UImainController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         thread = new Thread();
-
+        bulletFlag = new SimpleBooleanProperty();
+        
 //        equipmentData;
 
         equipmentTable.itemsProperty().setValue(equipmentData);
@@ -634,27 +656,7 @@ public class UImainController implements Initializable {
         chart.getData().add(firstScoreSeries);
         chart.getData().add(lastScoreSeries);
         
-        Simulator.ALL_SKILLS
-                .stream()
-                .forEach(skill -> skill.requiredProperty()
-                        .addListener(
-                                (observable) -> 
-                                {
-                                    skill.updateScore();
-                                }
-                        )
-                );
-        Simulator.ALL_ATTACK_SKILLS
-                .stream()
-                .forEach(skill -> skill.activeProperty()
-                        .addListener(
-                                
-                                (observable) -> 
-                                {
-                                    skill.updateScore();
-                                }
-                        )
-                );
+        
         
         
         // Condition skill setting
@@ -673,6 +675,51 @@ public class UImainController implements Initializable {
         ResentmentBox.selectedProperty().bindBidirectional(resentment.activeProperty());
         ResuscitateBox.selectedProperty().bindBidirectional(resuscitate.activeProperty());
         WeaknessExploitBox.selectedProperty().bindBidirectional(weaknessExploit.activeProperty());
+        ChainCritCheckBox.selectedProperty().bindBidirectional(chainCrit.activeProperty());
+        GunnerButton.selectedProperty().bindBidirectional(((SwordGunnerChoice)chainCrit).getGunnerProperty());
+        
+        NormalRapidUpRadioBox.selectedProperty().bindBidirectional(NormalRapidUp.activeProperty());
+        PieceUpRadioBox.selectedProperty().bindBidirectional(pierceUp.activeProperty());
+        SpreadUpRadioBox.selectedProperty().bindBidirectional(spreadUp.activeProperty());
+        RapidFireUpCheckBox.selectedProperty().bindBidirectional(rapidFireUp.activeProperty());
+      
+        SpreadUpRadioBox.selectedProperty().addListener(((observable, oldValue, newValue) -> {
+            System.out.println("Old -> " + oldValue);
+            System.out.println("New -> " + newValue);
+            
+        }));
+        
+        Stream.of(NormalRapidUpRadioBox, PieceUpRadioBox, SpreadUpRadioBox)
+                .forEach(box -> box.setOnMousePressed(
+                (event) -> {
+//                    System.out.println("State " + SpreadUpRadioBox.selectedProperty().get());
+//                    if(SpreadUpRadioBox.selectedProperty().get())
+//                        SpreadUpRadioBox.setSelected(false);
+                    bulletFlag.set(box.selectedProperty().get());
+        }));
+        
+        Stream.of(NormalRapidUpRadioBox, PieceUpRadioBox, SpreadUpRadioBox)
+                .forEach(box -> box.setOnMouseReleased(
+                (event) -> {
+//                    System.out.println("State " + SpreadUpRadioBox.selectedProperty().get());
+                    if(bulletFlag.get())
+                    {
+                        bulletFlag.set(false);
+                        box.selectedProperty().set(false);
+                    }
+        }));
+//        SpreadUpRadioBox.setOn
+        
+        
+        ToggleGroup group = new ToggleGroup();
+        group.getToggles().add(NormalRapidUpRadioBox);
+        group.getToggles().add(PieceUpRadioBox);
+        group.getToggles().add(SpreadUpRadioBox);
+
+//        ObjectProperty<Toggle> selectedToggle = new SimpleObjectProperty<>();
+//        selectedToggle.bind(group.selectedToggleProperty());
+//        selectedToggle.addListener(listener);
+        
         
         AgitatorBox.setSelected(true);
         AttackBoostBox.setSelected(true);
@@ -689,8 +736,13 @@ public class UImainController implements Initializable {
         ResentmentBox.setSelected(false);
         ResuscitateBox.setSelected(false);
         WeaknessExploitBox.setSelected(true);
+        ChainCritCheckBox.setSelected(false);
+        GunnerButton.setSelected(false);
+        NormalRapidUpRadioBox.setSelected(false);
+        PieceUpRadioBox.setSelected(false);
+        SpreadUpRadioBox.setSelected(false);
+        RapidFireUpCheckBox.setSelected(false);
         
-       
         Map<ComboBox, Skill> comboboxMap = new HashMap();
         comboboxMap.put(MasterTouchBox, Simulator.masterTouch);
         comboboxMap.put(HandicraftBox, Simulator.handicraft);
@@ -747,7 +799,24 @@ public class UImainController implements Initializable {
             cmb.setValue(0);
 
             skill.requiredProperty().bind(cmb.getSelectionModel().selectedItemProperty());
+            skill.activeProperty().addListener(
+                    (o)->{
+                        if(!skill.isActive())
+                            cmb.setValue(0);
+                    }
+            );
         }
+        
+//        NormalRapidUp.
+//        Stream.of(NormalRapidUp, pierceUp, spreadUp, rapidFireUp)
+//                .forEach(skill -> 
+//                {
+//                    skill.requiredProperty().bind(
+//                    Bindings.and(
+//                    textField.textProperty().isEqualTo(""),
+//                    textField2.textProperty().isEqualTo("")));
+//                });
+        
         
         // Weapon
         weapon = new Weapon("weapon", 200, 0, 0, 0, 0, 0);

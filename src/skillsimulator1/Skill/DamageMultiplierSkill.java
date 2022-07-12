@@ -4,17 +4,12 @@
  */
 package skillsimulator1.Skill;
 
-import skillsimulator1.Expectation;
-
-
-
 /**
  *
  * @author fes77
  */
-public class DamageMultiplierSkill extends AttackSkill implements DamageMultiplier{
-
-    private double[] multiplerSequece;
+public abstract class DamageMultiplierSkill  extends AttackSkill implements DamageMultiplier{
+    private final double[] multiplerSequece;
 
     public DamageMultiplierSkill(String title, int cost, double[] multiplerSequece) {
         super(title, cost, multiplerSequece.length);
@@ -27,10 +22,6 @@ public class DamageMultiplierSkill extends AttackSkill implements DamageMultipli
             return 1;
         return multiplerSequece[level - 1];
     }
-    
-    @Override
-    public void editExpectation(Expectation exp, int level){
-        exp.multiplyPre(getDamageMultiplier(level));
-    }
-    
 }
+
+    

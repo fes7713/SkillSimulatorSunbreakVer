@@ -543,7 +543,7 @@ public class Equipment implements Comparable<Equipment>{
     private void setBestDecoration(Map<Decoration, Integer> decorations, Map<Decoration, Integer> requireds, Slot extraSlot)
     {
         counter++;
-        double exp = getExpectation(decorations);
+        double exp = getExpectation(decorations, requireds);
         
 //        System.out.println(exp);
 //        System.out.println("------");
@@ -706,8 +706,8 @@ public class Equipment implements Comparable<Equipment>{
         
         Map<Skill, Integer> newSkills = getSkillMap();
 
-        int availableSlots3 = decoratables.stream().map(deco -> deco.getSlot3()).reduce(0, (a, b) -> a + b);
-        int availableSlots2 = decoratables.stream().map(deco -> deco.getSlot2()).reduce(0, (a, b) -> a + b);
+//        int availableSlots3 = decoratables.stream().map(deco -> deco.getSlot3()).reduce(0, (a, b) -> a + b);
+//        int availableSlots2 = decoratables.stream().map(deco -> deco.getSlot2()).reduce(0, (a, b) -> a + b);
         
         newSkills.keySet()
                 .stream()
@@ -718,11 +718,12 @@ public class Equipment implements Comparable<Equipment>{
         return exp.getExpectation();
     }
     
-    public double getExpectation(Map<Decoration, Integer> decorations)
+    public double getExpectation(Map<Decoration, Integer> decorations, Map<Decoration, Integer> requireds)
     {
         Expectation exp = new Expectation(weapon);
         
         Map<Skill, Integer> newSkills = new HashMap(skills);
+        
         
         decorations.entrySet()
                 .stream()
@@ -732,6 +733,19 @@ public class Equipment implements Comparable<Equipment>{
                                 entry.getKey().getSkill(), 
                                 Math.min(
                                     newSkills.getOrDefault(entry.getKey().getSkill(), 0) + entry.getKey().getLevel() * decorations.get(entry.getKey()),
+                                    entry.getKey().getSkill().getMax())
+                                );
+                        }
+                );
+        
+        requireds.entrySet()
+                .stream()
+                .forEach(
+                        entry -> {
+                            newSkills.put(
+                                entry.getKey().getSkill(), 
+                                Math.min(
+                                    newSkills.getOrDefault(entry.getKey().getSkill(), 0) + entry.getKey().getLevel() * requireds.get(entry.getKey()),
                                     entry.getKey().getSkill().getMax())
                                 );
                         }
