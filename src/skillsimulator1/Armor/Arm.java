@@ -23,7 +23,7 @@ public class Arm extends Armor{
 
     @Override
     public String toString() {
-        return "Arm{" + getName() +  '}';
+        return getName();
     }
     
     

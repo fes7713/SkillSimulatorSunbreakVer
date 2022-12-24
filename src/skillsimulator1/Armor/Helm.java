@@ -23,7 +23,7 @@ public class Helm extends Armor{
 
     @Override
     public String toString() {
-        return "Helm{"  + getName() +   '}';
+        return getName();
     }
     
 }

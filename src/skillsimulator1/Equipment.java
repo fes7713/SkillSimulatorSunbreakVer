@@ -755,6 +755,7 @@ public class Equipment implements Comparable<Equipment>{
                 .stream()
                 .filter(AttackSkill.class::isInstance)
                 .map(AttackSkill.class::cast)
+                .filter(skill -> skill.isActive() || skill.getRequired() > 0)
                 .forEach(skill -> skill.evalExpectation(exp, newSkills.get(skill)));
         
         return exp.getExpectation();

@@ -155,11 +155,15 @@ public class Simulator {
             = new DamageUpSkill("死中に活", 2, new int[]{5, 10, 20});
     public static final Decoration crisisJewel2
             = new Decoration(resuscitate, "窮地珠【2】", 2, 1);
+    public static final Decoration crisisJewel4
+            = new Decoration(resuscitate, "窮地珠【4】", 4, 2);
     
     public static final Skill masterTouch
             = new Skill("達人芸", 2, 3);
     public static final Decoration masteryJewel2
             = new Decoration(masterTouch, "達芸珠【2】", 2, 1);
+    public static final Decoration masteryJewel4
+            = new Decoration(masterTouch, "達芸珠【4】", 4, 2);
     
     public static final Skill handicraft
             = new Skill("匠", 3, 5);
@@ -170,6 +174,8 @@ public class Simulator {
             = new Skill("業物", 2, 3);
     public static final Decoration razorJewel2
             = new Decoration(razorSharp, "斬鉄珠【2】", 2, 1);
+    public static final Decoration razorJewel4
+            = new Decoration(razorSharp, "斬鉄珠【4】", 4, 2);
     
     public static final Skill speedSharping
             = new Skill("砥石使用高速化", 1, 3);
@@ -182,6 +188,8 @@ public class Simulator {
             = new Skill("剛刃研磨", 2, 3);
     public static final Decoration sharpJewel2
             = new Decoration(protectivePolish, "剛刃珠【2】", 2, 1);
+    public static final Decoration sharpJewel4
+            = new Decoration(protectivePolish, "剛刃珠【4】", 4, 2);
     
     public static final Skill NormalRapidUp
             = new DamageMultiplierPostSkill("通常弾・連射矢強化", 3, new double[] {1.05, 1.1, 1.2});
@@ -220,6 +228,8 @@ public class Simulator {
             = new Skill("納刀術", 2, 3);
     public static final Decoration sheathJewel2
             = new Decoration(quickSheath, "納刀珠【2】", 2, 1);
+    public static final Decoration sheathJewel4
+            = new Decoration(quickSheath, "納刀珠【4】", 4, 3);
     
     public static final Skill flinchFree
             = new Skill("ひるみ軽減", 1, 3);
@@ -232,6 +242,8 @@ public class Simulator {
             = new Skill("気絶耐性", 1, 3);
     public static final Decoration steadfastJewel1
             = new Decoration(stunResistance, "耐絶珠【1】", 1, 1);
+    public static final Decoration steadfastJewel13
+            = new Decoration(stunResistance, "耐絶珠Ⅲ【4】", 4, 3);
     
     public static final Skill freeMeal
             = new Skill("満足感", 1, 3);
@@ -252,9 +264,9 @@ public class Simulator {
     public static final Decoration friendshipJewel2
             = new Decoration(wideRange, "友愛珠【2】", 2, 1);
     public static final Decoration friendshipJewel3
-            = new Decoration(wideRange, "友愛珠Ⅱ【3】", 3, 3);
+            = new Decoration(wideRange, "友愛珠Ⅲ【3】", 3, 3);
     public static final Decoration friendshipJewel4
-            = new Decoration(wideRange, "友愛珠Ⅲ【4】", 4, 4);
+            = new Decoration(wideRange, "友愛珠Ⅳ【4】", 4, 4);
     
     public static final Skill ammoUp
             = new Skill("装填拡張", 3, 3);
@@ -332,14 +344,21 @@ public class Simulator {
             = new Decoration(dragonAttack, "破龍珠Ⅲ【3】", 3, 3);
     
     public static final Skill blastAttack
-            = new Skill("爆破属性強化", 1, 5);
+            = new Skill("爆破属性強化", 1, 3);
     public static final Decoration blastJewel2
-            = new Decoration(blastAttack, "爆破珠【1】", 1, 1);
+            = new Decoration(blastAttack, "爆破珠【2】", 2, 1);
     
     public static final Skill paralysisAttack
-            = new Skill("麻痺属性強化", 2, 5);
+            = new Skill("麻痺属性強化", 2, 3);
     public static final Decoration paralyzerJewel2
             = new Decoration(paralysisAttack, "麻痺珠【2】", 2, 1);
+    
+    public static final Skill poisonAttack
+            = new Skill("毒属性強化", 2, 3);
+    public static final Decoration venomJewel1
+            = new Decoration(poisonAttack, "毒珠【2】", 2, 1);
+    public static final Decoration venomJewel4
+            = new Decoration(poisonAttack, "毒珠【4】", 4, 3);
     
     public static final Skill evadeExtender
             = new Skill("回避距離UP", 2, 3);
@@ -401,14 +420,27 @@ public class Simulator {
             = new SeriesSkill("鋼殻の恩恵", 4);
     public static final SeriesSkill teostraBlessing
             = new SeriesSkill("炎鱗の恩恵", 4);
-    public static final SeriesSkill redirection
-            = new SeriesSkill("合気", 3);
+    
+    
+    public static final Skill redirection
+            = new Skill("合気", 2, 2);
+    public static final Decoration redirectionJewel2
+            = new Decoration(redirection, "合気珠【3】", 3, 1);
+    
     public static final SeriesSkill bloodRite
             = new SeriesSkill("血氣", 3);
     public static final Skill chainCrit
             = new SwordGunnerDamageUpSkill("連撃", 2, new int[] {10, 12, 15}, new int[] {8, 9, 10});
-    public static final SeriesSkill spiribirdsCall
-            = new SeriesSkill("供応", 1);
+    
+    public static final Skill spiribirdsCall
+            = new Skill("供応", 1, 1);
+    public static final Decoration spiribirdsCallJewel1
+            = new Decoration(spiribirdsCall, "供応珠【1】", 1, 1);
+    
+    public static final Skill Grinder_s
+            = new Skill("研磨術【鋭】", 3, 3);
+    public static final Decoration grinderJewel1
+            = new Decoration(Grinder_s, "研鋭珠【3】", 3, 1);
     
     public static final SeriesSkill bloodlust 
             = new SeriesSkill("狂竜症【蝕】", 3);
@@ -418,6 +450,14 @@ public class Simulator {
             = new SeriesSkill("業鎧【修羅】", 3);
     public static final SeriesSkill coalescence 
             = new SeriesSkill("災禍転福", 3);
+    
+    public static final SeriesSkill elementExploit
+            = new SeriesSkill("弱点特効【属性】", 3);
+    
+    public static final Skill BladescaleHone
+            = new Skill("刃鱗磨き", 2, 3);
+    public static final Decoration BladescaleHoneJewel2
+            = new Decoration(BladescaleHone, "刃鱗珠【2】", 2, 1);
     
     public static final List<Skill> ALL_SKILLS = getAllSkills();
     public static final List<Skill> ALL_ATTACK_SKILLS = getAllAttackSkills();
@@ -707,7 +747,7 @@ public class Simulator {
         
     }
     
-    public void run(Weapon weapon, int listSize) {
+    public void run(Weapon weapon, int listSize, Helm helmFix, Chest chestFix, Arm armFix, Waist waistFix, Leg legFix, Charm charmFix) {
         setActive(true);
         equipments.clear();
         progress.set(0);
@@ -720,12 +760,49 @@ public class Simulator {
         legs.stream().forEach(Armor::updateScore);
         charms.stream().forEach(Armor::updateScore);
         
-        select(helms, selectedHelms, cutValue.get());
-        select(chests, selectedChests, cutValue.get());
-        select(arms, selectedArms, cutValue.get());
-        select(waists, selectedWaists, cutValue.get());
-        select(legs, selectedLegs, cutValue.get());
-        select(charms, selectedCharms, cutValue.get());
+        if(helmFix == null)
+            select(helms, selectedHelms, cutValue.get());
+        else
+        {
+            selectedHelms.clear();
+            selectedHelms.add(helmFix);
+        }
+        if(chestFix == null)
+            select(chests, selectedChests, cutValue.get());
+        else
+        {
+            selectedChests.clear();
+            selectedChests.add(chestFix);
+        }
+        if(armFix == null)
+            select(arms, selectedArms, cutValue.get());
+        else
+        {
+            selectedArms.clear();
+            selectedArms.add(armFix);
+        }
+        
+        if(waistFix == null)
+            select(waists, selectedWaists, cutValue.get());
+        else
+        {
+            selectedWaists.clear();
+            selectedWaists.add(waistFix);
+        }
+        if(legFix == null)
+            select(legs, selectedLegs, cutValue.get());
+        else
+        {
+            selectedLegs.clear();
+            selectedLegs.add(legFix);
+        }
+        if(charmFix == null)
+            select(charms, selectedCharms, cutValue.get());
+        else
+        {
+            selectedCharms.clear();
+            selectedCharms.add(charmFix);
+        }
         
         Collections.sort(selectedHelms, Comparator.reverseOrder());
         Collections.sort(selectedChests, Comparator.reverseOrder());
@@ -734,11 +811,11 @@ public class Simulator {
         Collections.sort(selectedLegs, Comparator.reverseOrder());
         Collections.sort(selectedCharms, Comparator.reverseOrder());
         
-        selectedHelms.subList(Math.min(20, selectedHelms.size()), selectedHelms.size()).clear();
-        selectedChests.subList(Math.min(20, selectedChests.size()), selectedChests.size()).clear();
-        selectedArms.subList(Math.min(20, selectedArms.size()), selectedArms.size()).clear();
-        selectedWaists.subList(Math.min(20, selectedWaists.size()), selectedWaists.size()).clear();
-        selectedLegs.subList(Math.min(20, selectedLegs.size()), selectedLegs.size()).clear();
+        selectedHelms.subList(Math.min(15, selectedHelms.size()), selectedHelms.size()).clear();
+        selectedChests.subList(Math.min(15, selectedChests.size()), selectedChests.size()).clear();
+        selectedArms.subList(Math.min(15, selectedArms.size()), selectedArms.size()).clear();
+        selectedWaists.subList(Math.min(15, selectedWaists.size()), selectedWaists.size()).clear();
+        selectedLegs.subList(Math.min(15, selectedLegs.size()), selectedLegs.size()).clear();
         selectedCharms.subList(Math.min(20, selectedCharms.size()), selectedCharms.size()).clear();
 //        List<Skill> activeSkills = getActiveSkills();
         
@@ -942,6 +1019,7 @@ public class Simulator {
                 dragonAttack,
                 blastAttack,
                 paralysisAttack,
+                poisonAttack,
                 kushalaBlessing,
                 teostraBlessing,
                 redirection,
@@ -959,10 +1037,11 @@ public class Simulator {
                 bloodlust,
                 dereliction,
                 mailOfHellfire,
-                coalescence
+                coalescence,
+                Grinder_s,
+                BladescaleHone,
+                elementExploit
                );
-       
-
     }
     
     public static List<Skill> getAllAttackSkills()
@@ -1043,7 +1122,7 @@ public class Simulator {
         simu.addLeg(leg);
         simu.addCharm(charm);
         
-        simu.run(new Weapon("Name", 200, 0), 10);
+//        simu.run(new Weapon("Name", 200, 0), 10);
         
         System.out.println("Simu finished");
     }

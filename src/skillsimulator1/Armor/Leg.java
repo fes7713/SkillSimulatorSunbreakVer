@@ -23,7 +23,7 @@ public class Leg extends Armor {
 
     @Override
     public String toString() {
-        return "Leg{"  + getName() +   '}';
+        return getName();
     }
     
 }

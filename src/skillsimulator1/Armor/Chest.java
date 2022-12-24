@@ -23,7 +23,7 @@ public class Chest extends Armor{
 
     @Override
     public String toString() {
-        return "Chest{"  + getName() +   '}';
+        return getName();
     }
     
 }

@@ -45,7 +45,7 @@ public class Charm extends Armor{
 
     @Override
     public String toString() {
-        return "Charm{"  + getName() +   '}';
+        return getName();
     }
     
     public Skill getSkill1(){

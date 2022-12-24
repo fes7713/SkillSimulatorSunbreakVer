@@ -87,7 +87,7 @@ public class Weapon implements Decoratable{
 
     @Override
     public int getSlot4() {
-        return slot.get().getSlot3();
+        return slot.get().getSlot4();
     }
     
     

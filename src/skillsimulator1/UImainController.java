@@ -43,7 +43,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import skillsimulator1.Armor.Arm;
 import skillsimulator1.Armor.Charm;
+import skillsimulator1.Armor.Chest;
+import skillsimulator1.Armor.Helm;
+import skillsimulator1.Armor.Leg;
+import skillsimulator1.Armor.Waist;
 import static skillsimulator1.DataLoader.LoadArmData;
 import static skillsimulator1.DataLoader.LoadCharmData;
 import static skillsimulator1.DataLoader.LoadChestData;
@@ -231,7 +236,12 @@ public class UImainController implements Initializable {
     private ComboBox MailOfHellfireBox;
     @FXML
     private ComboBox CoalescenceBox;
-
+    @FXML
+    private ComboBox Grinder_SBox;
+    @FXML
+    private ComboBox BladescaleHoneBox;
+    @FXML
+    private ComboBox ElementExploitBox;
     
     private final ObservableList<Equipment> equipmentData = FXCollections.observableArrayList();
     private DoubleProperty bestExpectation;
@@ -364,6 +374,27 @@ public class UImainController implements Initializable {
     @FXML
     private Spinner<Integer> cutScoreSpinner;
     
+    
+    @FXML
+    private ComboBox<Helm> helmFixCmbBox;
+    @FXML
+    private ComboBox<Chest> chestFixCmbBox;
+    @FXML
+    private ComboBox<Arm> armFixCmbBox;
+    @FXML
+    private ComboBox<Waist> waistFixCmbBox;
+    @FXML
+    private ComboBox<Leg> legFixCmbBox;
+    @FXML
+    private ComboBox<Charm> charmFixCmbBox;
+    
+    private ObservableList<Helm> helmList;
+    private ObservableList<Chest> chestList;
+    private ObservableList<Arm> armList;
+    private ObservableList<Waist> waistList;
+    private ObservableList<Leg> legList;
+    private ObservableList<Charm> charmList;
+    
     @FXML
     private void handleButtonAction(ActionEvent event) {
         System.out.println(weapon);
@@ -397,7 +428,14 @@ public class UImainController implements Initializable {
             @Override
             public void run(){
                 sim.setActive(true);
-                sim.run(weapon, 100);
+                sim.run(weapon, 100, 
+                        helmFixCmbBox.getValue(), 
+                        chestFixCmbBox.getValue(), 
+                        armFixCmbBox.getValue(), 
+                        waistFixCmbBox.getValue(), 
+                        legFixCmbBox.getValue(), 
+                        charmFixCmbBox.getValue()
+                );
                 
             }
         };
@@ -785,6 +823,9 @@ public class UImainController implements Initializable {
         comboboxMap.put(DerelictionBox, Simulator.dereliction);
         comboboxMap.put(MailOfHellfireBox, Simulator.mailOfHellfire);
         comboboxMap.put(CoalescenceBox, Simulator.coalescence);
+        comboboxMap.put(Grinder_SBox, Simulator.Grinder_s);
+        comboboxMap.put(BladescaleHoneBox, Simulator.BladescaleHone);
+        comboboxMap.put(ElementExploitBox, Simulator.elementExploit);
 
 
         // Setting up cmbboxes
@@ -865,7 +906,8 @@ public class UImainController implements Initializable {
                 Simulator.iceAttack, 
                 Simulator.dragonAttack, 
                 Simulator.blastAttack, 
-                Simulator.paralysisAttack)
+                Simulator.paralysisAttack,
+                Simulator.poisonAttack)
                 .forEach(elementBox.getItems()::add);
         
         elementBox.setValue(elementBox.getItems().get(0));
@@ -1014,13 +1056,21 @@ public class UImainController implements Initializable {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 50, 10); //(int)(componentLimit * 6 * 1.5)
         cutScoreSpinner.setValueFactory(cutValueFactory);
         sim.getCutValueProperty().bind(cutScoreSpinner.valueProperty());
+
         
-        LoadHelmData("MHR_EQUIP_HEAD - 頭.tsv").stream().forEach(armor -> sim.addHelm(armor));
-        LoadChestData("MHR_EQUIP_BODY - 胴.tsv").stream().forEach(armor -> sim.addChest(armor));
-        LoadArmData("MHR_EQUIP_ARM - 腕.tsv").stream().forEach(armor -> sim.addArm(armor));
-        LoadWaistData("MHR_EQUIP_WST - 腰.tsv").stream().forEach(armor -> sim.addWaist(armor));
-        LoadLegData("MHR_EQUIP_LEG - 脚.tsv").stream().forEach(armor -> sim.addLeg(armor));
-        LoadCharmData("MHR_EQUIP_CHARM.tsv").stream().forEach(armor -> sim.addCharm(armor));
+        helmList = FXCollections.observableArrayList(LoadHelmData("MHR_EQUIP_HEAD - 頭.tsv"));
+        helmList.stream().forEach(armor -> sim.addHelm(armor));
+        chestList = FXCollections.observableArrayList(LoadChestData("MHR_EQUIP_BODY - 胴.tsv"));
+        chestList.stream().forEach(armor -> sim.addChest(armor));
+        armList = FXCollections.observableArrayList(LoadArmData("MHR_EQUIP_ARM - 腕.tsv"));
+        armList.stream().forEach(armor -> sim.addArm(armor));
+        waistList = FXCollections.observableArrayList(LoadWaistData("MHR_EQUIP_WST - 腰.tsv"));
+        waistList.stream().forEach(armor -> sim.addWaist(armor));
+        legList = FXCollections.observableArrayList(LoadLegData("MHR_EQUIP_LEG - 脚.tsv"));
+        legList.stream().forEach(armor -> sim.addLeg(armor));
+        charmList = FXCollections.observableArrayList(LoadCharmData("MHR_EQUIP_CHARM.tsv"));
+        charmList.stream().forEach(armor -> sim.addCharm(armor));
+        
         sim.getCharms().stream().forEach(charmData::add);
 //        sim.run();
         if(sim.getCharms().isEmpty())
@@ -1028,6 +1078,23 @@ public class UImainController implements Initializable {
         
         
         mysetData.addAll(loadMyset(sim));
+        
+        helmFixCmbBox.itemsProperty().setValue(helmList);
+        chestFixCmbBox.itemsProperty().setValue(chestList);
+        armFixCmbBox.itemsProperty().setValue(armList);
+        waistFixCmbBox.itemsProperty().setValue(waistList);
+        legFixCmbBox.itemsProperty().setValue(legList);
+        charmFixCmbBox.itemsProperty().setValue(charmList);
+        
+        Stream
+                .of(helmFixCmbBox, chestFixCmbBox, armFixCmbBox, waistFixCmbBox, legFixCmbBox, charmFixCmbBox)
+                .forEach(
+                        cmbbox -> {
+                            cmbbox.getItems().add(0, null);
+                            cmbbox.setValue(null);
+                        }
+                );
+
         
     }    
 }
